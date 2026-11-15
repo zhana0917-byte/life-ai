@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7fc">
+<title>LifeAI — Your everyday space</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Display:wght@400;500;600;700;800&display=swap');
+:root{--bg:#080a12;--surface:#101421;--surface2:#151a2b;--surface3:#1b2033;--line:rgba(255,255,255,.075);--line2:rgba(255,255,255,.13);--text:#f7f7ff;--muted:#9298af;--muted2:#68718b;--violet:#9b7cff;--violet2:#795cf0;--cyan:#65e4df;--mint:#89edc6;--danger:#ff8798;--shadow:0 25px 75px rgba(0,0,0,.38)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 11% -10%,rgba(111,77,245,.20),transparent 35%),radial-gradient(ellipse at 97% 12%,rgba(52,193,194,.13),transparent 31%),var(--bg);color:var(--text);font-family:'DM Sans','Noto Sans Display',sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.13;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.app{max-width:1500px;margin:auto;padding:18px 24px 22px}
+.top{height:62px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px;font:800 22px Manrope,sans-serif;letter-spacing:-.8px}.logo{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;font-size:21px;color:#fff;background:linear-gradient(140deg,#b4a0ff,#7959ed 52%,#45d7d3);box-shadow:0 8px 28px rgba(129,99,246,.35),inset 0 1px 0 #ffffff88;position:relative}.logo:after{content:"";position:absolute;inset:1px;border:1px solid #ffffff55;border-radius:14px}.brand small{display:block;font:700 8px 'DM Sans',sans-serif;letter-spacing:1.8px;color:#8189a4;margin-top:2px}
+.top-right{display:flex;align-items:center;gap:10px}.status{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--line);border-radius:30px;background:#ffffff08;color:#bdc2d3;font-size:10px;font-weight:800;letter-spacing:.6px}.status i{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint)}.langs{display:flex;gap:3px;padding:4px;border:1px solid var(--line);border-radius:99px;background:#ffffff08}.lang{border:0;border-radius:99px;padding:7px 9px;background:transparent;color:#8890a7;font-size:10px;font-weight:800}.lang.active{background:linear-gradient(120deg,#8e6cf5,#4cbfc8);color:#fff;box-shadow:0 3px 12px #7256dc55}.top-btn{width:37px;height:37px;border:1px solid var(--line);border-radius:12px;background:#ffffff08;color:#d5d8e6;font-size:15px}.top-btn:hover{background:#ffffff13;border-color:var(--line2)}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr) 250px;gap:16px;align-items:stretch;min-height:calc(100vh - 115px)}
+.panel{border:1px solid var(--line);background:linear-gradient(150deg,rgba(22,26,43,.93),rgba(12,15,26,.94));backdrop-filter:blur(20px);box-shadow:var(--shadow);border-radius:23px}
+.left{padding:17px 13px;display:flex;flex-direction:column;gap:17px;min-height:720px}.new-chat{width:100%;height:43px;border:1px solid #a38bff40;border-radius:13px;background:linear-gradient(110deg,#8b6af022,#55d1d022);color:#e6e0ff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}.new-chat:hover{border-color:#a38bff85;background:linear-gradient(110deg,#8b6af044,#55d1d044)}
+.nav-label{margin:0 8px 5px;color:#68728c;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.nav-item{width:100%;display:flex;align-items:center;gap:10px;padding:10px 9px;border:1px solid transparent;border-radius:12px;background:transparent;text-align:left;color:#aeb3c5;font-size:11px;font-weight:650}.nav-item:hover,.nav-item.active{color:#eeeaff;background:#ffffff08;border-color:#ffffff08}.nav-ico{width:27px;height:27px;border-radius:9px;background:#ffffff0b;display:grid;place-items:center;color:#b8a6ff;font-size:14px}.history-list{display:flex;flex-direction:column;gap:3px}.history-item{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;padding:9px 10px;border:0;border-radius:10px;background:transparent;color:#8089a1;font-size:10px}.history-item:hover{background:#ffffff08;color:#d6d5e5}.left-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}.profile{display:flex;align-items:center;gap:9px;padding:8px}.profile-avatar{width:31px;height:31px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#9273f5,#47c9cc);font-size:13px;font-weight:900}.profile b{display:block;font-size:10px}.profile small{color:#7f88a0;font-size:9px}
+.center{display:flex;flex-direction:column;min-width:0;min-height:720px;overflow:hidden}.center-head{height:66px;flex:0 0 66px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px}.chat-heading{display:flex;align-items:center;gap:11px}.chat-icon{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;border:1px solid #a58bff33;background:linear-gradient(135deg,#9b7cff2a,#5ee7e21a);color:#d4c5ff}.chat-heading b{font:750 12px Manrope}.chat-heading small{display:block;color:#79839c;font-size:9px;margin-top:2px}.head-actions{display:flex;gap:7px}.mini-btn{height:31px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#ffffff07;color:#aeb4c7;font-size:10px}.mini-btn:hover{background:#ffffff10;color:#fff}
+.messages{flex:1;min-height:420px;max-height:calc(100vh - 330px);overflow:auto;padding:24px 22px 18px;display:flex;flex-direction:column;gap:17px;scrollbar-width:thin;scrollbar-color:#353b55 transparent}
+.welcome{max-width:660px;margin:20px auto 10px;text-align:center;padding:12px 8px 22px}.welcome-orb{width:70px;height:70px;border-radius:24px;margin:0 auto 17px;display:grid;place-items:center;font-size:31px;background:radial-gradient(circle at 35% 25%,#c8b9ff,#805fed 50%,#23304d 100%);box-shadow:0 0 40px #8f70ff44,0 0 80px #5ee7df12,inset 0 1px 0 #ffffff88}.welcome h1{margin:0 0 9px;font:800 clamp(27px,3vw,39px)/1.12 Manrope;letter-spacing:-1.8px}.welcome h1 span{background:linear-gradient(100deg,#c1b2ff,#8f83ff,#75e2df);color:transparent;background-clip:text}.welcome p{margin:0 auto;color:#8992ab;font-size:12px;line-height:1.7;max-width:460px}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-width:570px;margin:20px auto 0}.suggestion{min-height:63px;text-align:left;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#ffffff05;color:#d0d3e1;display:flex;align-items:center;gap:10px;font-size:10px;line-height:1.4;transition:.2s}.suggestion:hover{transform:translateY(-2px);border-color:#a58bff50;background:#9b7cff0c}.s-icon{width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;background:#a18aff18;color:#c8baff;font-size:15px}
+.msg{display:flex;gap:10px;max-width:91%;align-items:flex-start;animation:rise .22s ease-out}.msg.user{align-self:flex-end;flex-direction:row-reverse}.msg-avatar{width:30px;height:30px;flex:0 0 30px;border-radius:10px;display:grid;place-items:center;background:#a18aff20;border:1px solid #a18aff2b;color:#d4c5ff;font-size:13px;font-weight:900}.msg.user .msg-avatar{background:#5ee7df17;border-color:#5ee7df35;color:#8be7df}.bubble{min-width:45px;max-width:100%;padding:12px 15px;border:1px solid #ffffff10;border-radius:5px 16px 16px 16px;background:#ffffff07;color:#d9dbea;font-size:12px;line-height:1.72;overflow-wrap:anywhere}.msg.user .bubble{border-radius:16px 5px 16px 16px;background:linear-gradient(115deg,#795be4,#398eaa);border-color:#ffffff20;color:#fff;box-shadow:0 8px 22px #5e50b333}.bubble p{margin:0 0 9px}.bubble p:last-child{margin-bottom:0}.bubble h1,.bubble h2,.bubble h3{font-family:Manrope;color:#f0edff;line-height:1.3;margin:12px 0 6px;letter-spacing:-.3px}.bubble h1{font-size:18px}.bubble h2{font-size:15px}.bubble h3{font-size:13px}.bubble strong{color:#fff;font-weight:800}.bubble em{color:#d6cbff}.bubble ul,.bubble ol{padding-left:20px;margin:7px 0}.bubble li{margin:3px 0}.bubble code{font-family:ui-monospace,monospace;background:#05071188;border:1px solid #ffffff13;border-radius:5px;padding:2px 5px;color:#9be8e3;font-size:.92em}.bubble pre{white-space:pre-wrap;overflow:auto;padding:12px;border-radius:10px;background:#050711;border:1px solid #ffffff12;color:#d9e4f7}.bubble blockquote{margin:8px 0;padding:4px 0 4px 11px;border-left:2px solid #9d82ff;color:#adb4c9}.photo-preview{display:block;max-width:min(250px,100%);max-height:250px;object-fit:contain;border-radius:12px;margin-top:9px;border:1px solid #ffffff22}.bubble.streaming{white-space:pre-wrap;min-height:34px}.bubble.streaming:after{content:'▋';display:inline-block;margin-left:2px;color:#75e7df;animation:blink .8s steps(2,start) infinite}@keyframes blink{to{visibility:hidden}}.thinking{min-width:235px;padding:13px 14px}.think-row{display:flex;align-items:center;gap:10px}.think-orb{width:25px;height:25px;flex:0 0 25px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#9b7cff30,#5ee7df22);border:1px solid #a38aff40}.think-orb:after{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#c9b8ff,#61e4de);box-shadow:0 0 12px #a58aff;animation:pulse 1.2s infinite}.think-label{font-weight:800;color:#f0edff;font-size:11px}.dots{display:flex;gap:4px;margin-left:auto}.dots i{width:4px;height:4px;border-radius:50%;background:#a58aff;animation:bounce 1s infinite}.dots i:nth-child(2){animation-delay:.15s;background:#8f9dff}.dots i:nth-child(3){animation-delay:.3s;background:#65e4df}.think-sub{margin:7px 0 0 35px;color:#7d88a3;font-size:9px}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}@keyframes pulse{50%{transform:scale(1.3);opacity:.7}}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+.composer-wrap{padding:14px 17px 15px;border-top:1px solid var(--line);background:#090c16d9;backdrop-filter:blur(19px)}.preview-row{display:none;align-items:center;gap:9px;margin:0 0 10px;padding:8px;border:1px solid #a28aff30;border-radius:12px;background:#9b7cff0e}.preview-row img{width:42px;height:42px;object-fit:cover;border-radius:9px}.preview-row span{flex:1;color:#c8c5da;font-size:10px;overflow:hidden;text-overflow:ellipsis}.composer{display:flex;align-items:flex-end;gap:8px;padding:8px;border:1px solid #ffffff19;border-radius:17px;background:#ffffff08;transition:.2s}.composer:focus-within{border-color:#9b7cff88;box-shadow:0 0 0 3px #9b7cff15}.compose-btn{width:38px;height:38px;flex:0 0 38px;border:1px solid #ffffff11;border-radius:12px;background:#ffffff0b;color:#c9baff;font-size:17px}.compose-btn.send{border:0;background:linear-gradient(135deg,#9675ff,#52cfd2);color:white;box-shadow:0 6px 20px #8164ed45;font-size:18px}.compose-btn:disabled{opacity:.45;cursor:not-allowed}.composer textarea{flex:1;min-width:0;max-height:120px;min-height:38px;padding:10px 6px;resize:none;outline:none;border:0;background:transparent;color:#f6f5ff;font-size:12px}.composer textarea::placeholder{color:#737d96}.compose-hint{display:flex;justify-content:space-between;padding:7px 4px 0;color:#66718b;font-size:9px}
+.right{display:flex;flex-direction:column;gap:12px}.right .panel{padding:16px}.panel-title{display:flex;align-items:center;gap:8px;margin:0 0 12px;font:800 11px Manrope;color:#f0efff}.panel-mark{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:#9b7cff20;color:#c7b6ff}.tool{width:100%;display:flex;align-items:center;gap:9px;padding:8px 6px;border:1px solid transparent;border-radius:11px;background:transparent;color:#bfc4d5;text-align:left;font-size:10px;font-weight:650}.tool:hover{background:#ffffff08;border-color:#ffffff09}.tool-ico{width:31px;height:31px;flex:0 0 31px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(145deg,#9b7cff20,#5ee7df10);font-size:14px}.right-note{margin-top:auto;padding:13px 14px;border:1px solid #5ee7df19;border-radius:15px;background:linear-gradient(130deg,#5ee7df08,#9b7cff0d);color:#8d98b1;font-size:9px;line-height:1.6}.right-note b{display:block;color:#c3c6d9;font-size:10px;margin-bottom:4px}
+.modal-backdrop{display:none;position:fixed;inset:0;z-index:80;background:#03040abf;backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(460px,100%);padding:22px;border:1px solid #ffffff19;border-radius:22px;background:#151a2b;box-shadow:0 30px 100px #0009}.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.modal h2{margin:0;font:800 17px Manrope}.close{width:32px;height:32px;border:1px solid var(--line);border-radius:10px;background:#ffffff08;color:#dbe0ec}.modal p{color:#939bb1;font-size:11px;line-height:1.6}.modal input{width:100%;padding:12px;border:1px solid #ffffff18;border-radius:12px;background:#090d18;color:white;font-size:11px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:13px}.primary{padding:10px 14px;border:0;border-radius:11px;background:linear-gradient(120deg,#9070f2,#49bfc8);color:white;font-size:10px;font-weight:800}.secondary{padding:10px 14px;border:1px solid var(--line);border-radius:11px;background:#ffffff08;color:#c0c4d3;font-size:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:90;max-width:calc(100% - 28px);padding:11px 15px;border:1px solid #ffffff18;border-radius:12px;background:#20263a;color:#f2f1ff;font-size:11px;box-shadow:var(--shadow);display:none}
+.footer{display:flex;justify-content:space-between;padding:13px 2px 0;color:#69738d;font-size:8px;letter-spacing:.4px}.footer b{color:#9ca3bd}
+@media(max-width:1080px){.layout{grid-template-columns:190px minmax(0,1fr)}.right{display:none}.left{min-height:690px}}
+@media(max-width:760px){body{padding-bottom:75px}.app{padding:9px 11px 16px}.top{height:52px;margin-bottom:12px}.brand{font-size:19px}.brand small{font-size:7px;letter-spacing:1.4px}.logo{width:38px;height:38px}.status{display:none}.top-right{gap:6px}.layout{display:block;min-height:0}.left{display:none}.center{min-height:calc(100dvh - 145px);border-radius:20px}.center-head{height:54px;flex-basis:54px;padding:0 12px}.chat-heading b{font-size:11px}.chat-heading small{font-size:8px}.messages{height:calc(100dvh - 310px);min-height:300px;max-height:560px;padding:14px 11px;gap:12px}.welcome{margin:12px auto 5px;padding:8px 4px 15px}.welcome-orb{width:58px;height:58px;border-radius:20px;font-size:26px;margin-bottom:13px}.welcome h1{font-size:30px}.welcome p{font-size:10px}.suggestions{gap:7px;margin-top:15px}.suggestion{min-height:55px;padding:8px;font-size:9px;gap:7px}.s-icon{width:27px;height:27px;flex-basis:27px}.msg{max-width:97%;gap:7px}.msg-avatar{width:27px;height:27px;flex-basis:27px}.bubble{padding:10px 11px;font-size:11px}.composer-wrap{padding:10px 10px 11px}.composer{gap:6px;padding:6px}.compose-btn{width:35px;height:35px;flex-basis:35px}.composer textarea{font-size:11px;min-height:35px}.compose-hint{font-size:8px}.mobile-dock{position:fixed;z-index:70;display:grid;grid-template-columns:repeat(3,1fr);left:11px;right:11px;bottom:9px;padding:6px;border:1px solid #ffffff17;border-radius:16px;background:#141a2beF;backdrop-filter:blur(20px);box-shadow:0 14px 35px #0009}.dock-item{border:0;border-radius:11px;background:transparent;color:#929bb2;min-height:39px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:9px;font-weight:800}.dock-item.active{color:#eeeaff;background:linear-gradient(120deg,#9b7cff24,#5ee7df13)}.footer{font-size:7px}}
+@media(min-width:761px){.mobile-dock{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+<style>
+/* LifeAI Aurora redesign — light, airy, editorial */
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap');
+:root{
+ --bg:#f5f6fb;--surface:#ffffff;--surface2:#fbfbff;--surface3:#f1efff;
+ --line:#e9e8f2;--line2:#dcd9ec;--text:#202238;--muted:#777b96;--muted2:#9a9db1;
+ --violet:#8065e9;--violet2:#684bd4;--cyan:#45bfc4;--mint:#35b98a;--danger:#dc617b;
+ --shadow:0 18px 55px rgba(47,43,89,.08)
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 7% 0%,rgba(156,132,255,.17),transparent 34%),radial-gradient(ellipse at 95% 8%,rgba(90,214,211,.15),transparent 30%),#f6f7fc;color:var(--text);font-family:'Onest',sans-serif;letter-spacing:-.12px}
+body:before{opacity:.34;background-image:radial-gradient(#b9b4d7 0.65px,transparent .65px);background-size:19px 19px;mask-image:linear-gradient(to bottom,#000,transparent 70%)}
+button,input,textarea{font-family:'Onest',sans-serif}
+.app{max-width:1440px;padding:20px 26px 22px}
+.top{height:66px;margin-bottom:20px}
+.brand{font-family:'Onest',sans-serif;font-size:23px;letter-spacing:-1.1px;color:#25243d}
+.logo{border-radius:16px;background:linear-gradient(145deg,#a994ff,#7960e6 58%,#5bc9ca);box-shadow:0 9px 24px rgba(127,99,226,.24)}
+.brand small{font-family:'Onest',sans-serif;color:#999bb0;letter-spacing:1.7px}
+.status{background:#fff;border-color:#e9e7f3;color:#777b94;box-shadow:0 3px 12px #3f37630a}
+.status i{background:#43c99b;box-shadow:0 0 0 4px #43c99b1d}
+.langs{background:#fff;border-color:#e9e7f3;box-shadow:0 3px 12px #3f37630a}
+.lang{color:#9698ad}.lang.active{background:linear-gradient(120deg,#8e75ee,#62c9ca);box-shadow:0 4px 10px #8065e92b}
+.top-btn{background:#fff;border-color:#e9e7f3;color:#676b84;box-shadow:0 3px 12px #3f37630a}
+.layout{grid-template-columns:224px minmax(0,1fr) 248px;gap:18px;min-height:calc(100vh - 126px)}
+.panel{background:rgba(255,255,255,.88);border:1px solid #e9e8f2;box-shadow:var(--shadow);backdrop-filter:blur(18px);border-radius:25px}
+.left{padding:18px 14px;gap:18px}
+.new-chat{background:linear-gradient(110deg,#f0ebff,#e8f8f7);border-color:#e2dcfb;color:#6650bd;border-radius:14px;font-size:11px}
+.new-chat:hover{background:linear-gradient(110deg,#e9e1ff,#dcf4f1);border-color:#cfc4fa}
+.nav-label{color:#a0a1b5;letter-spacing:1.35px}
+.nav-item{color:#737790;border-radius:13px;font-size:11px}
+.nav-item:hover,.nav-item.active{color:#5f4bb3;background:#f3f0ff;border-color:#ebe5ff}
+.nav-ico{background:#f1edff;color:#8067d8}
+.history-item{color:#8b8da3}.history-item:hover{background:#f5f3ff;color:#5f55a0}
+.profile{border-radius:14px;background:#faf9ff}.profile-avatar{background:linear-gradient(135deg,#9b82f2,#5fc9c9)}.profile b{color:#34344f}.profile small{color:#999bb0}
+.center{min-height:720px}
+.center-head{border-bottom:1px solid #eeedf5}
+.chat-icon{background:linear-gradient(135deg,#f0eaff,#e8f8f7);border-color:#e8e1ff;color:#8066d8}
+.chat-heading b{font-family:'Onest',sans-serif;color:#292943;font-size:13px}
+.chat-heading small{color:#999bb0}
+.mini-btn{background:#fff;border-color:#e9e8f2;color:#85879d;border-radius:10px}
+.mini-btn:hover{background:#f7f5ff;color:#6855bb;border-color:#ddd5fa}
+.messages{scrollbar-color:#d9d4ed transparent}
+.welcome-orb{background:radial-gradient(circle at 32% 24%,#fff,#bbaaff 40%,#8065e9 72%,#64cfca);box-shadow:0 12px 35px #947be53d,inset 0 1px 0 #ffffff}
+.welcome h1{font-family:'Onest',sans-serif;color:#292842;letter-spacing:-1.7px}
+.welcome h1 span{background:linear-gradient(100deg,#8065e9,#9a7dec,#4ebfc1);background-clip:text}
+.welcome p{color:#8588a0;font-size:12px}
+.suggestion{background:#fff;border-color:#ebeaf3;color:#565a76;border-radius:16px;box-shadow:0 4px 14px #34305c08;font-size:10.5px}
+.suggestion:hover{background:#fbfaff;border-color:#d8cffb;box-shadow:0 9px 22px #5d4bb10f}
+.s-icon{background:linear-gradient(135deg,#f0ebff,#e8f8f7);color:#8067d8;border-radius:11px}
+.msg-avatar{background:#f0ebff;border-color:#e4dcff;color:#765bd0}
+.msg.user .msg-avatar{background:#e8f8f6;border-color:#d5f0ed;color:#299b9e}
+.bubble{background:#fff;border-color:#ecebf3;color:#454860;box-shadow:0 4px 15px #38345e08;font-size:12.5px;border-radius:6px 17px 17px 17px}
+.msg.user .bubble{background:linear-gradient(120deg,#8468e9,#59bfc3);border-color:transparent;color:#fff;box-shadow:0 8px 20px #8065e92c}
+.bubble h1,.bubble h2,.bubble h3{font-family:'Onest',sans-serif;color:#34304f}
+.bubble strong{color:#282743}.bubble em{color:#765bd0}
+.bubble code{background:#f3f0ff;border-color:#e8e2fb;color:#6952bd}
+.bubble pre{background:#24243a;color:#f4f1ff;border-color:#393650}
+.bubble blockquote{border-color:#9278e8;color:#777991}
+.photo-preview{border-color:#e7e4f0}
+.thinking{background:#fbfaff;border-color:#e8e2fb}
+.think-orb{background:linear-gradient(135deg,#f0eaff,#e4f8f6);border-color:#e6defd}
+.think-label{color:#51458b}.think-sub{color:#9293a9}
+.composer-wrap{background:rgba(255,255,255,.94);border-top:1px solid #eeedf5;backdrop-filter:blur(18px)}
+.preview-row{background:#faf8ff;border-color:#e6defd}.preview-row span{color:#6c6688}
+.composer{background:#f8f8fc;border-color:#e5e4ef;border-radius:18px;padding:7px}
+.composer:focus-within{background:#fff;border-color:#b7a7f3;box-shadow:0 0 0 4px #9278e817}
+.compose-btn{background:#f0edfb;border-color:#e8e3f7;color:#8067d8;border-radius:13px}
+.compose-btn.send{background:linear-gradient(135deg,#8d72ed,#53c5c7);box-shadow:0 6px 16px #8065e92b}
+.composer textarea{color:#34344e;font-size:12.5px}.composer textarea::placeholder{color:#a1a2b4}
+.compose-hint{color:#a2a3b5}
+.right .panel{padding:17px}
+.panel-title{font-family:'Onest',sans-serif;color:#33324d}
+.panel-mark{background:#f0ebff;color:#8067d8}
+.tool{color:#72758e;border-radius:12px}.tool:hover{background:#f7f5ff;border-color:#eee9ff}
+.tool-ico{background:linear-gradient(145deg,#f0ebff,#e8f8f7)}
+.right-note{background:linear-gradient(130deg,#f0fbfa,#f6f2ff);border-color:#e4f1ef;color:#8589a0}
+.right-note b{color:#514c79}
+.modal-backdrop{background:#28254255}
+.modal{background:#fff;border:1px solid #ebe9f4;box-shadow:0 30px 90px #27204426}
+.modal h2{font-family:'Onest',sans-serif;color:#302e4b}.modal p{color:#85879d}
+.modal input{background:#fafaff;border-color:#e7e5f0;color:#34344e}
+.close{background:#f7f6fb;border-color:#e9e7f0;color:#777991}
+.secondary{background:#f7f6fb;border-color:#e9e7f0;color:#72758e}
+.primary{background:linear-gradient(120deg,#8d72ed,#53c5c7);box-shadow:0 6px 15px #8065e926}
+.toast{background:#292741;color:#fff;box-shadow:0 12px 35px #24213d30}
+.footer{color:#a2a3b5}.footer b{color:#69638e}
+.mobile-dock{background:rgba(255,255,255,.94);border:1px solid #e8e6f0;box-shadow:0 12px 35px #302b5817}
+.dock-item{color:#9293a8}.dock-item.active{color:#6954bf;background:linear-gradient(120deg,#f1edff,#eaf8f7)}
+@media(max-width:1080px){.layout{grid-template-columns:190px minmax(0,1fr)}}
+@media(max-width:760px){
+ body{padding-bottom:78px}.app{padding:9px 11px 14px}.top{height:52px;margin-bottom:11px}.brand{font-size:19px}.logo{width:37px;height:37px;border-radius:14px}.top-right{gap:5px}.langs{padding:3px}.lang{padding:7px 8px;font-size:9px}.top-btn{width:35px;height:35px}
+ .center{min-height:calc(100dvh - 145px);border-radius:21px}.center-head{height:55px;flex-basis:55px;padding:0 12px}.chat-heading b{font-size:11px}.chat-heading small{font-size:8px}.messages{height:calc(100dvh - 310px);min-height:300px;max-height:560px;padding:15px 11px;gap:12px}
+ .welcome{margin:12px auto 5px;padding:8px 4px 15px}.welcome-orb{width:58px;height:58px;border-radius:20px;font-size:26px;margin-bottom:13px}.welcome h1{font-size:29px}.welcome p{font-size:10.5px}.suggestions{gap:7px;margin-top:15px}.suggestion{min-height:57px;padding:8px;font-size:9px;gap:7px}.s-icon{width:27px;height:27px;flex-basis:27px}
+ .msg{max-width:97%;gap:7px}.msg-avatar{width:27px;height:27px;flex-basis:27px}.bubble{padding:10px 11px;font-size:11.5px}.composer-wrap{padding:10px 10px 11px}.composer{gap:6px;padding:6px}.compose-btn{width:35px;height:35px;flex-basis:35px}.composer textarea{font-size:11.5px;min-height:35px}.compose-hint{font-size:8px}.mobile-dock{left:11px;right:11px;bottom:9px;padding:6px;border-radius:17px}.dock-item{min-height:40px;font-size:9px}.footer{font-size:7px}
+}
+
+</style>
+
+<style id="lifeai-readable-refresh">
+/* LifeAI — readable, airy refresh */
+:root{--bg:#f5f6fc!important;--surface:#fff!important;--surface2:#fbfaff!important;--surface3:#f0edff!important;--line:#e7e6f0!important;--line2:#d9d6e9!important;--text:#24243c!important;--muted:#737790!important;--muted2:#9698ad!important;--shadow:0 16px 44px rgba(53,45,105,.09)!important}
+html,body{background:#f5f6fc!important;color:#282840!important;font-family:'Onest',sans-serif!important}
+body{background-image:radial-gradient(ellipse at 8% 0%,rgba(153,128,255,.16),transparent 35%),radial-gradient(ellipse at 94% 7%,rgba(82,204,202,.15),transparent 31%)!important}
+body:before{opacity:.24!important}
+.app{max-width:1540px!important;padding:22px 28px 26px!important}
+.top{height:72px!important;margin-bottom:22px!important}
+.brand{font-size:27px!important;letter-spacing:-1.2px!important}
+.brand small{font-size:10px!important;letter-spacing:2px!important}
+.logo{width:48px!important;height:48px!important;font-size:25px!important;border-radius:17px!important}
+.status{font-size:12px!important;padding:11px 15px!important;background:#fff!important;color:#686b84!important;border-color:#e7e6f0!important}
+.lang{font-size:12px!important;padding:9px 12px!important}
+.top-btn{width:43px!important;height:43px!important;font-size:18px!important;background:#fff!important;color:#686b84!important;border-color:#e7e6f0!important}
+.layout{grid-template-columns:250px minmax(0,1fr) 270px!important;gap:20px!important;min-height:calc(100vh - 135px)!important}
+.panel{background:rgba(255,255,255,.94)!important;border:1px solid #e8e7f1!important;border-radius:26px!important;box-shadow:0 16px 44px rgba(53,45,105,.08)!important}
+.left{padding:20px 16px!important;gap:20px!important}
+.new-chat{height:50px!important;font-size:14px!important;border-radius:15px!important;color:#604bb5!important}
+.nav-label{font-size:11px!important;color:#9294aa!important;letter-spacing:1.6px!important}
+.nav-item{font-size:14px!important;padding:12px 11px!important;color:#666b86!important;gap:12px!important}
+.nav-ico{width:32px!important;height:32px!important;font-size:16px!important}
+.history-item{font-size:13px!important;padding:10px 11px!important;color:#777b94!important}
+.profile b{font-size:13px!important}.profile small{font-size:11px!important}
+.center{min-height:760px!important}
+.center-head{height:76px!important;flex-basis:76px!important;padding:0 24px!important}
+.chat-icon{width:42px!important;height:42px!important;font-size:18px!important}
+.chat-heading b{font-size:16px!important}.chat-heading small{font-size:12px!important}
+.mini-btn{height:38px!important;padding:0 14px!important;font-size:12px!important}
+.messages{padding:30px 30px 24px!important;gap:20px!important;max-height:calc(100vh - 350px)!important}
+.welcome{max-width:740px!important;margin:24px auto 14px!important;padding:18px 12px 28px!important}
+.welcome-orb{width:82px!important;height:82px!important;border-radius:27px!important;font-size:36px!important;margin-bottom:20px!important}
+.welcome h1{font-size:clamp(36px,3.4vw,50px)!important;letter-spacing:-2px!important;line-height:1.13!important;margin-bottom:14px!important}
+.welcome p{font-size:16px!important;line-height:1.8!important;max-width:570px!important;color:#777b94!important}
+.suggestions{max-width:650px!important;gap:12px!important;margin-top:25px!important}
+.suggestion{min-height:76px!important;padding:15px 16px!important;font-size:13px!important;line-height:1.5!important;gap:12px!important;border-radius:17px!important;color:#50536f!important}
+.s-icon{width:38px!important;height:38px!important;flex-basis:38px!important;font-size:17px!important}
+.msg{gap:12px!important;max-width:88%!important}
+.msg-avatar{width:36px!important;height:36px!important;flex-basis:36px!important;font-size:15px!important;border-radius:12px!important}
+.bubble{font-size:15px!important;line-height:1.78!important;padding:15px 18px!important;border-radius:7px 19px 19px 19px!important;color:#41445f!important}
+.msg.user .bubble{border-radius:19px 7px 19px 19px!important}
+.bubble h1{font-size:24px!important}.bubble h2{font-size:21px!important}.bubble h3{font-size:18px!important}
+.bubble code{font-size:.94em!important}.bubble pre{font-size:13px!important;line-height:1.65!important}
+.photo-preview{max-width:min(320px,100%)!important;max-height:320px!important}
+.thinking{min-width:270px!important;padding:16px 18px!important}.think-label{font-size:14px!important}.think-sub{font-size:12px!important}
+.composer-wrap{padding:17px 20px 18px!important;background:rgba(255,255,255,.97)!important;border-top:1px solid #e9e8f1!important}
+.composer{padding:9px!important;gap:10px!important;background:#fbfbff!important;border-color:#e4e2ef!important;border-radius:20px!important}
+.compose-btn{width:46px!important;height:46px!important;flex-basis:46px!important;font-size:21px!important;border-radius:15px!important}
+.composer textarea{font-size:16px!important;min-height:46px!important;line-height:1.55!important;color:#333550!important;padding:11px 8px!important}
+.composer textarea::placeholder{color:#999bb0!important}
+.compose-hint{font-size:11px!important;color:#9698ad!important;padding-top:9px!important}
+.right .panel{padding:20px!important}
+.panel-title{font-size:14px!important;color:#34344f!important;margin-bottom:15px!important}
+.panel-mark{width:30px!important;height:30px!important;font-size:15px!important}
+.tool{font-size:13px!important;padding:10px 8px!important;color:#666a84!important;gap:11px!important}
+.tool-ico{width:36px!important;height:36px!important;flex-basis:36px!important;font-size:16px!important}
+.right-note{font-size:12px!important;padding:15px!important;line-height:1.7!important;color:#777b94!important}
+.right-note b{font-size:13px!important;color:#514c79!important}
+.modal{background:#fff!important}.modal h2{font-size:21px!important}.modal p{font-size:14px!important}.modal input{font-size:14px!important}.primary,.secondary{font-size:13px!important;padding:12px 16px!important}
+.footer{font-size:10px!important;color:#999bb0!important}
+.toast{font-size:13px!important}
+.mobile-dock{background:rgba(255,255,255,.97)!important;border-color:#e6e4f0!important;box-shadow:0 12px 35px rgba(45,40,90,.13)!important}
+.dock-item{font-size:12px!important;color:#777b94!important;min-height:46px!important}
+.dock-item.active{color:#6752bd!important}
+@media(max-width:1080px){.layout{grid-template-columns:220px minmax(0,1fr)!important}.right{display:none!important}}
+@media(max-width:760px){
+ .app{padding:12px 12px 16px!important}.top{height:58px!important;margin-bottom:13px!important}.brand{font-size:22px!important}.brand small{font-size:8px!important;letter-spacing:1.5px!important}.logo{width:42px!important;height:42px!important}.langs{padding:3px!important}.lang{font-size:11px!important;padding:8px 9px!important}.top-btn{width:39px!important;height:39px!important}
+ .center{min-height:calc(100dvh - 150px)!important;border-radius:22px!important}.center-head{height:62px!important;flex-basis:62px!important;padding:0 14px!important}.chat-heading b{font-size:14px!important}.chat-heading small{font-size:10px!important}.chat-icon{width:36px!important;height:36px!important}
+ .messages{height:calc(100dvh - 325px)!important;min-height:300px!important;max-height:600px!important;padding:18px 13px!important;gap:15px!important}
+ .welcome{margin:17px auto 8px!important;padding:10px 5px 18px!important}.welcome-orb{width:66px!important;height:66px!important;font-size:29px!important;margin-bottom:16px!important}.welcome h1{font-size:clamp(31px,8vw,39px)!important;letter-spacing:-1.4px!important}.welcome p{font-size:14px!important;line-height:1.7!important;padding:0 7px!important}
+ .suggestions{gap:9px!important;margin-top:18px!important}.suggestion{min-height:66px!important;padding:10px!important;font-size:12px!important;gap:8px!important;border-radius:14px!important}.s-icon{width:31px!important;height:31px!important;flex-basis:31px!important;font-size:14px!important}
+ .msg{max-width:98%!important;gap:8px!important}.msg-avatar{width:30px!important;height:30px!important;flex-basis:30px!important;font-size:13px!important}.bubble{font-size:14px!important;line-height:1.72!important;padding:12px 14px!important}.bubble h1{font-size:21px!important}.bubble h2{font-size:18px!important}.bubble h3{font-size:16px!important}.photo-preview{max-width:min(250px,100%)!important;max-height:250px!important}
+ .composer-wrap{padding:12px 11px 13px!important}.composer{gap:7px!important;padding:7px!important}.compose-btn{width:40px!important;height:40px!important;flex-basis:40px!important;font-size:19px!important}.composer textarea{font-size:15px!important;min-height:40px!important;padding:9px 5px!important}.compose-hint{font-size:9px!important;padding-top:7px!important}
+ .mobile-dock{left:12px!important;right:12px!important;bottom:9px!important;padding:6px!important;border-radius:17px!important}.dock-item{min-height:43px!important;font-size:11px!important}.footer{font-size:8px!important}
+}
+@media(min-width:761px) and (max-width:1080px){.nav-item{font-size:13px!important}}
+</style>
+
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">✦</div><div>LifeAI<small>INTELLIGENCE FOR EVERYDAY LIFE</small></div></div>
+ <div class="top-right"><span class="status"><i></i><span data-t="status">AI SPACE · READY</span></span><div class="langs"><button class="lang active" data-lang="ru">RU</button><button class="lang" data-lang="kk">KZ</button><button class="lang" data-lang="en">EN</button></div><button class="top-btn" id="openSettings" title="Settings">⚙</button></div>
+</header>
+<div class="layout">
+ <aside class="left panel">
+  <button class="new-chat" id="newChat"><span>＋</span><span data-t="newChat">Новый чат</span></button>
+  <div><p class="nav-label" data-t="workspace">РАБОЧЕЕ ПРОСТРАНСТВО</p><button class="nav-item active" id="navChat"><span class="nav-ico">✦</span><span data-t="chat">Чат с LifeAI</span></button><button class="nav-item" id="navTools"><span class="nav-ico">◈</span><span data-t="tools">Возможности</span></button><button class="nav-item" id="navSettings"><span class="nav-ico">⚙</span><span data-t="settings">Настройки</span></button></div>
+  <div><p class="nav-label" data-t="recent">НЕДАВНИЕ ДИАЛОГИ</p><div class="history-list" id="historyList"><div class="history-item" data-t="noHistory">Пока нет сохранённых чатов</div></div></div>
+  <div class="left-bottom"><div class="profile"><div class="profile-avatar">✦</div><div><b>LifeAI</b><small data-t="personalAssistant">Personal AI assistant</small></div></div></div>
+ </aside>
+
+ <main class="center panel">
+  <div class="center-head">
+   <div class="chat-heading"><div class="chat-icon">✦</div><div><b data-t="conversation">Диалог с LifeAI</b><small data-t="assistantReady">Ваше пространство идей и ответов</small></div></div>
+   <div class="head-actions"><button class="mini-btn" id="clearChat" data-t="clear">Очистить</button></div>
+  </div>
+  <div class="messages" id="messages" aria-live="polite">
+   <div class="welcome" id="welcome">
+    <div class="welcome-orb">✦</div><h1 data-t="welcomeTitle">Ваш мир идей.<br><span>Ваш LifeAI.</span></h1>
+    <p data-t="welcomeText">Задайте вопрос, отправьте фото или начните с одной из подсказок. Я помогу разобраться, придумать и создать.</p>
+    <div class="suggestions">
+     <button class="suggestion" data-prompt="study"><span class="s-icon">▤</span><span data-t="suggestStudy">Объясни сложную тему простыми словами</span></button>
+     <button class="suggestion" data-prompt="photo"><span class="s-icon">▧</span><span data-t="suggestPhoto">Проанализируй моё фото</span></button>
+     <button class="suggestion" data-prompt="idea"><span class="s-icon">✧</span><span data-t="suggestIdea">Придумай идею для проекта</span></button>
+     <button class="suggestion" data-prompt="write"><span class="s-icon">✎</span><span data-t="suggestWrite">Помоги написать красивый текст</span></button>
+    </div>
+   </div>
+  </div>
+  <div class="composer-wrap">
+   <div class="preview-row" id="previewRow"><img id="previewImage" alt=""><span id="previewName">image</span><button class="mini-btn" id="removeImage">×</button></div>
+   <div class="composer"><input type="file" id="fileInput" accept="image/*" hidden><button class="compose-btn" id="attach" title="Attach image">＋</button><textarea id="messageInput" rows="1" data-ph="placeholder" placeholder="Спросите о чём угодно..."></textarea><button class="compose-btn send" id="send" title="Send">↑</button></div>
+   <div class="compose-hint"><span data-t="composerHint">Enter — отправить · Shift + Enter — новая строка</span><span data-t="private">Не отправляйте конфиденциальные данные</span></div>
+  </div>
+ </main>
+
+ <aside class="right">
+  <section class="panel"><h3 class="panel-title"><span class="panel-mark">✧</span><span data-t="capabilities">Возможности</span></h3>
+   <button class="tool" data-prompt="study"><span class="tool-ico">▤</span><span data-t="toolStudy">Учёба и объяснения</span></button>
+   <button class="tool" data-prompt="photo"><span class="tool-ico">▧</span><span data-t="toolPhoto">Анализ фото</span></button>
+   <button class="tool" data-prompt="idea"><span class="tool-ico">✳</span><span data-t="toolIdeas">Идеи и творчество</span></button>
+   <button class="tool" data-prompt="plan"><span class="tool-ico">◷</span><span data-t="toolPlans">Планы и задачи</span></button>
+   <button class="tool" data-prompt="anything"><span class="tool-ico">✦</span><span data-t="toolAnything">Любые вопросы</span></button>
+  </section>
+  <section class="panel"><h3 class="panel-title"><span class="panel-mark">⌘</span><span data-t="connection">Подключение</span></h3><p style="margin:0;color:#929bb1;font-size:10px;line-height:1.65" data-t="connectionText">LifeAI использует быстрый режим для текста и отдельную модель для анализа фото. Ответы поступают постепенно.</p><button class="new-chat" style="margin-top:12px" id="connectionSettings" data-t="configure">Настроить сервер</button></section>
+  <div class="right-note"><b data-t="privacyTitle">Ваше пространство</b><span data-t="privacyText">История хранится локально в этом браузере. Не сохраняйте здесь личные или конфиденциальные данные.</span></div>
+ </aside>
+</div>
+<footer class="footer"><span>© 2026 <b>LIFEAI</b> · <span data-t="footer">Создано для повседневных открытий</span></span><span>✦ YOUR SPACE TO THINK</span></footer>
+</div>
+
+<nav class="mobile-dock">
+ <button class="dock-item active" data-dock-target="chat"><span>✦</span><span data-t="chat">Чат</span></button>
+ <button class="dock-item" data-dock-target="tools"><span>◈</span><span data-t="tools">Мүмкіндіктер</span></button>
+ <button class="dock-item" data-dock-target="settings"><span>⚙</span><span data-t="settings">Баптау</span></button>
+</nav>
+
+<div class="modal-backdrop" id="settingsModal">
+ <section class="modal">
+  <div class="modal-top"><h2 data-t="settingsTitle">Подключение AI-сервера</h2><button class="close" id="closeSettings">×</button></div>
+  <p data-t="settingsExplain">Вставь URL своего Cloudflare Worker. Браузер отправляет ему сообщение и изображение; доступ к AI остаётся на сервере.</p>
+  <input id="backendUrl" type="url" placeholder="https://lifeai-api.your-subdomain.workers.dev" autocomplete="off">
+  <p style="font-size:9px" data-t="responseShape">Ожидаемый ответ сервера: JSON с полем <code>reply</code>. Пока сервер не подключён, интерфейс работает в режиме предпросмотра.</p>
+  <div class="modal-actions"><button class="secondary" id="cancelSettings" data-t="cancel">Отмена</button><button class="primary" id="saveSettings" data-t="save">Сохранить</button></div>
+ </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const T={
+ru:{status:"AI SPACE · READY",newChat:"Новый чат",workspace:"РАБОЧЕЕ ПРОСТРАНСТВО",chat:"Чат с LifeAI",tools:"Возможности",settings:"Настройки",recent:"НЕДАВНИЕ ДИАЛОГИ",noHistory:"Пока нет сохранённых чатов",personalAssistant:"Ваш AI-помощник",conversation:"Диалог с LifeAI",assistantReady:"Ваше пространство идей и ответов",clear:"Очистить",welcomeTitle:"Ваш мир идей.<br><span>Ваш LifeAI.</span>",welcomeText:"Задайте вопрос, отправьте фото или начните с одной из подсказок. Я помогу разобраться, придумать и создать.",suggestStudy:"Объясни сложную тему простыми словами",suggestPhoto:"Проанализируй моё фото",suggestIdea:"Придумай идею для проекта",suggestWrite:"Помоги написать красивый текст",placeholder:"Спросите о чём угодно...",composerHint:"Enter — отправить · Shift + Enter — новая строка",private:"Не отправляйте конфиденциальные данные",capabilities:"Возможности",toolStudy:"Учёба и объяснения",toolPhoto:"Анализ фото",toolIdeas:"Идеи и творчество",toolPlans:"Планы и задачи",toolAnything:"Любые вопросы",connection:"Подключение",connectionText:"LifeAI использует быстрый режим для текста и отдельную модель для анализа фото. Ответы поступают постепенно.",configure:"Настроить сервер",privacyTitle:"Ваше пространство",privacyText:"История хранится локально в этом браузере. Не сохраняйте здесь личные или конфиденциальные данные.",footer:"Создано для повседневных открытий",settingsTitle:"Подключение AI-сервера",settingsExplain:"Вставь URL своего Cloudflare Worker. Браузер отправляет ему сообщение и изображение; доступ к AI остаётся на сервере.",responseShape:"Вставь адрес опубликованного Worker, например https://lifeai-api.your-subdomain.workers.dev. Сервер возвращает готовый ответ в поле reply.",cancel:"Отмена",save:"Сохранить",thinking:"LifeAI думает…",thinkingSub:"Обрабатываем ваш запрос",noBackend:"AI-сервер ещё не подключён. Откройте «Настройки» и добавьте URL защищённого backend-сервера.",busy:"Подождите, текущий запрос ещё выполняется.",sendError:"Не удалось получить ответ. Попробуйте ещё раз.",retrying:"Сервис временно занят. Повторяем запрос…",networkError:"Не удалось связаться с сервером. Проверьте интернет и адрес backend.",fileError:"Выберите изображение в формате JPG, PNG или WebP размером до 8 МБ.",empty:"Введите сообщение или прикрепите фото.",clearDone:"История этого чата очищена.",newChatDone:"Начат новый диалог.",prompts:{study:"Объясни сложную тему простыми словами: ",photo:"Проанализируй это изображение: ",idea:"Придумай идею для проекта: ",write:"Помоги написать красивый текст на тему: ",plan:"Помоги составить план: ",anything:"Помоги разобраться с вопросом: "}},
+kk:{status:"AI КЕҢІСТІГІ · ДАЙЫН",newChat:"Жаңа чат",workspace:"ЖҰМЫС КЕҢІСТІГІ",chat:"LifeAI чаты",tools:"Мүмкіндіктер",settings:"Баптаулар",recent:"СОҢҒЫ ДИАЛОГТАР",noHistory:"Әзірге сақталған чат жоқ",personalAssistant:"Жеке AI-көмекшіңіз",conversation:"LifeAI-мен диалог",assistantReady:"Идеялар мен жауаптар кеңістігіңіз",clear:"Тазалау",welcomeTitle:"Идеялар әлемі.<br><span>Сіздің LifeAI.</span>",welcomeText:"Сұрақ қойыңыз, фото жіберіңіз немесе ұсыныстардың бірінен бастаңыз. Түсінуге, ой табуға және жасауға көмектесемін.",suggestStudy:"Күрделі тақырыпты қарапайым түсіндір",suggestPhoto:"Фотомды талда",suggestIdea:"Жобаға идея ойлап тап",suggestWrite:"Әдемі мәтін жазуға көмектес",placeholder:"Кез келген сұрақ қойыңыз...",composerHint:"Enter — жіберу · Shift + Enter — жаңа жол",private:"Құпия деректерді жібермеңіз",capabilities:"Мүмкіндіктер",toolStudy:"Оқу және түсіндіру",toolPhoto:"Фотосуретті талдау",toolIdeas:"Идеялар мен шығармашылық",toolPlans:"Жоспарлар мен тапсырмалар",toolAnything:"Кез келген сұрақ",connection:"Қосылым",connectionText:"LifeAI мәтінге жылдам режимді, ал фотоға бөлек модельді қолданады. Жауап біртіндеп көрсетіледі.",configure:"Серверді баптау",privacyTitle:"Сіздің кеңістігіңіз",privacyText:"Тарих осы браузерде жергілікті сақталады. Жеке немесе құпия ақпаратты сақтамаңыз.",footer:"Күнделікті жаңалықтар үшін жасалған",settingsTitle:"AI серверін қосу",settingsExplain:"Cloudflare Worker URL мекенжайын енгізіңіз. Браузер серверге мәтін мен суретті жібереді; AI-ға қосылу сервер жағында орындалады.",responseShape:"Жарияланған Worker мекенжайын енгізіңіз, мысалы https://lifeai-api.your-subdomain.workers.dev. Сервер reply өрісі бар JSON қайтаруы керек.",cancel:"Бас тарту",save:"Сақтау",thinking:"LifeAI ойланып жатыр…",thinkingSub:"Сұрағыңызды талдап жатырмыз",noBackend:"AI сервері әлі қосылмаған. «Баптаулар» бөлімін ашып, қорғалған backend серверінің URL мекенжайын енгізіңіз.",busy:"Күте тұрыңыз, алдыңғы сұрау әлі орындалып жатыр.",sendError:"Жауап алу мүмкін болмады. Қайталап көріңіз.",retrying:"Қызмет уақытша бос емес. Қайта сұрап жатырмыз…",networkError:"Серверге қосылу мүмкін болмады. Интернет пен backend мекенжайын тексеріңіз.",fileError:"8 МБ-қа дейінгі JPG, PNG немесе WebP суретін таңдаңыз.",empty:"Хабарлама жазыңыз немесе фото тіркеңіз.",clearDone:"Осы чаттың тарихы тазартылды.",newChatDone:"Жаңа диалог басталды.",prompts:{study:"Күрделі тақырыпты қарапайым тілмен түсіндір: ",photo:"Осы суретті талда: ",idea:"Жобаға идея ұсын: ",write:"Мына тақырыпта әдемі мәтін жазуға көмектес: ",plan:"Жоспар құруға көмектес: ",anything:"Осы сұрақты түсінуге көмектес: "}},
+en:{status:"AI SPACE · READY",newChat:"New chat",workspace:"WORKSPACE",chat:"Chat with LifeAI",tools:"Explore",settings:"Settings",recent:"RECENT CHATS",noHistory:"No saved conversations yet",personalAssistant:"Your AI assistant",conversation:"Conversation with LifeAI",assistantReady:"Your space for ideas and answers",clear:"Clear",welcomeTitle:"Your world of ideas.<br><span>Your LifeAI.</span>",welcomeText:"Ask a question, share a photo, or choose a prompt. I'll help you understand, imagine, and create.",suggestStudy:"Explain a difficult topic simply",suggestPhoto:"Analyze my photo",suggestIdea:"Come up with a project idea",suggestWrite:"Help me write something beautiful",placeholder:"Ask absolutely anything...",composerHint:"Enter — send · Shift + Enter — new line",private:"Avoid sharing confidential data",capabilities:"Capabilities",toolStudy:"Learning & explanations",toolPhoto:"Photo analysis",toolIdeas:"Ideas & creativity",toolPlans:"Plans & tasks",toolAnything:"Open questions",connection:"Connection",connectionText:"LifeAI uses a fast text model and a separate image model. Replies stream into the chat as they are generated.",configure:"Configure server",privacyTitle:"Your space",privacyText:"History is stored locally in this browser. Avoid saving personal or confidential information here.",footer:"Made for everyday discovery",settingsTitle:"Connect AI server",settingsExplain:"Paste your Cloudflare Worker URL. The browser sends it messages and images; model access stays on the server.",responseShape:"Paste the deployed Worker URL, for example https://lifeai-api.your-subdomain.workers.dev. The server returns a completed answer in the reply field.",cancel:"Cancel",save:"Save",thinking:"LifeAI is thinking…",thinkingSub:"Working through your request",noBackend:"The AI server is not connected yet. Open Settings and add the URL of a secure backend server.",busy:"Please wait — the previous request is still running.",sendError:"The response could not be retrieved. Please try again.",retrying:"The service is temporarily busy. Retrying…",networkError:"Could not reach the server. Check your internet and backend URL.",fileError:"Choose a JPG, PNG, or WebP image up to 8 MB.",empty:"Write a message or attach a photo.",clearDone:"This chat history has been cleared.",newChatDone:"A new conversation has started.",prompts:{study:"Explain this difficult topic simply: ",photo:"Analyze this image: ",idea:"Suggest an idea for a project: ",write:"Help me write a polished text about: ",plan:"Help me create a plan for: ",anything:"Help me understand this question: "}}
+};
+let lang="ru",file=null,busy=false,aborter=null,chatId=makeId(),messages=[];
+const $=id=>document.getElementById(id);
+function makeId(){return "c"+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function tr(k){return T[lang][k]||T.ru[k]||k}
+function setLang(l){lang=T[l]?l:"ru";document.documentElement.lang=lang;document.querySelectorAll(".lang").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));document.querySelectorAll("[data-t]").forEach(el=>{let k=el.dataset.t;if(k==="welcomeTitle")el.innerHTML=tr(k);else el.textContent=tr(k)});$("messageInput").placeholder=tr("placeholder");if(window.liveThinking&&window.liveThinking.isConnected)renderThinking(window.liveThinking)}
+document.querySelectorAll(".lang").forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+function toast(s){$("toast").textContent=s;$("toast").style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$("toast").style.display="none",3200)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderMarkdown(raw){
+ let s=escapeHtml(raw||"").replace(/\r\n/g,"\n");
+ const code=[];s=s.replace(/```([\s\S]*?)```/g,(_,c)=>{let id=code.length;code.push(c);return `@@CODE${id}@@`});
+ s=s.replace(/^### (.+)$/gm,"<h3>$1</h3>").replace(/^## (.+)$/gm,"<h2>$1</h2>").replace(/^# (.+)$/gm,"<h1>$1</h1>");
+ s=s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/__(.+?)__/g,"<strong>$1</strong>").replace(/\*(.+?)\*/g,"<em>$1</em>").replace(/`([^`]+)`/g,"<code>$1</code>");
+ s=s.replace(/^&gt; ?(.+)$/gm,"<blockquote>$1</blockquote>");
+ s=s.replace(/^\s*[-*] (.+)$/gm,"<li>$1</li>");
+ s=s.replace(/(?:<li>[\s\S]*?<\/li>\n?)+/g,m=>"<ul>"+m+"</ul>");
+ s=s.split(/\n{2,}/).map(block=>{block=block.trim();if(!block)return"";if(/^<(h[1-3]|ul|ol|blockquote|pre)/.test(block)||/^@@CODE\d+@@$/.test(block))return block;return "<p>"+block.replace(/\n/g,"<br>")+"</p>"}).join("");
+ s=s.replace(/@@CODE(\d+)@@/g,(_,i)=>"<pre><code>"+code[Number(i)]+"</code></pre>");
+ return s;
+}
+function saveLocal(){try{localStorage.setItem("lifeai_chat_"+chatId,JSON.stringify({id:chatId,updated:Date.now(),messages}))}catch{};renderHistory()}
+function renderHistory(){const list=$("historyList");let items=[];try{for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k&&k.startsWith("lifeai_chat_")){let v=JSON.parse(localStorage.getItem(k));if(v&&v.messages?.length)items.push(v)}}}catch{}items.sort((a,b)=>b.updated-a.updated);list.innerHTML="";if(!items.length){const d=document.createElement("div");d.className="history-item";d.textContent=tr("noHistory");list.append(d);return}items.slice(0,7).forEach(item=>{let b=document.createElement("button");b.className="history-item";b.textContent=(item.messages.find(m=>m.role==="user")?.text||"LifeAI chat").slice(0,34);b.onclick=()=>loadChat(item.id);list.append(b)})}
+function loadChat(id){try{let data=JSON.parse(localStorage.getItem("lifeai_chat_"+id));if(!data)return;chatId=id;messages=data.messages||[];renderAll()}catch{}}
+function renderAll(){const box=$("messages");box.innerHTML="";if(!messages.length){box.append(createWelcome());return}messages.forEach(m=>renderMessage(m));scrollBottom()}
+function createWelcome(){let el=document.createElement("div");el.className="welcome";el.id="welcome";el.innerHTML='<div class="welcome-orb">✦</div><h1></h1><p></p><div class="suggestions"></div>';el.querySelector("h1").innerHTML=tr("welcomeTitle");el.querySelector("p").textContent=tr("welcomeText");const options=[["study","▤","suggestStudy"],["photo","▧","suggestPhoto"],["idea","✧","suggestIdea"],["write","✎","suggestWrite"]];const grid=el.querySelector(".suggestions");options.forEach(([key,ico,label])=>{let b=document.createElement("button");b.className="suggestion";b.innerHTML='<span class="s-icon">'+ico+'</span><span></span>';b.querySelector("span:last-child").textContent=tr(label);b.onclick=()=>{ $("messageInput").value=tr("prompts")[key]||T[lang].prompts[key];$("messageInput").focus()};grid.append(b)});return el}
+function renderMessage(m){const wrap=document.createElement("div");wrap.className="msg "+(m.role==="user"?"user":"");const a=document.createElement("div");a.className="msg-avatar";a.textContent=m.role==="user"?"You":"✦";const b=document.createElement("div");b.className="bubble";if(m.role==="assistant")b.innerHTML=renderMarkdown(m.text);else b.textContent=m.text;if(m.image){let im=document.createElement("img");im.className="photo-preview";im.src=m.image;im.alt="Attached image";b.append(im)}wrap.append(a,b);$("messages").append(wrap);return wrap}
+function scrollBottom(){$("messages").scrollTop=$("messages").scrollHeight}
+function renderThinking(b){b.classList.add("thinking");b.innerHTML='<div class="think-row"><span class="think-orb"></span><span class="think-label"></span><span class="dots"><i></i><i></i><i></i></span></div><div class="think-sub"></div>';b.querySelector(".think-label").textContent=tr("thinking");b.querySelector(".think-sub").textContent=tr("thinkingSub")}
+function addThinking(){const row=document.createElement("div");row.className="msg";const a=document.createElement("div");a.className="msg-avatar";a.textContent="✦";const b=document.createElement("div");b.className="bubble";row.append(a,b);$("messages").append(row);renderThinking(b);window.liveThinking=b;scrollBottom();return b}
+function finishThinking(b,text,isError=false){b.classList.remove("thinking");b.innerHTML=isError?renderMarkdown(text):renderMarkdown(text);if(window.liveThinking===b)window.liveThinking=null;scrollBottom()}
+function readFileAsDataUrl(f){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error("File read error"));r.readAsDataURL(f)})}
+function fileToData(f){return new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=rej;r.readAsDataURL(f)})}
+function updateBusy(v){busy=v;$("send").disabled=v;$("attach").disabled=v;$("send").textContent=v?"…":"↑";$("send").style.opacity=v?".6":"1"}
+function friendlyError(status,body){if(status===429||status===503||status===502||status===504)return tr("retrying");return body||tr("sendError")}
+async function callBackend(payload,signal,onChunk){
+ const endpoint=localStorage.getItem("lifeai_backend")||"https://lifeai-api.zhana0917.workers.dev";
+ if(!endpoint)throw new Error("NO_BACKEND");
+ const response=await fetch(endpoint,{
+  method:"POST",
+  headers:{"Content-Type":"application/json","Accept":"text/event-stream, application/json"},
+  body:JSON.stringify(payload),
+  signal
+ });
+ const contentType=response.headers.get("content-type")||"";
+ if(!response.ok){
+  let data={};try{data=await response.json()}catch{}
+  throw new Error(friendlyError(response.status,data.error||data.message||("HTTP "+response.status)));
+ }
+ if(!response.body)throw new Error(tr("sendError"));
+ if(!contentType.includes("text/event-stream")){
+  const data=await response.json();
+  const reply=data.reply??data.text??data.output;
+  if(typeof reply!=="string"||!reply.trim())throw new Error(data.error||tr("empty"));
+  if(onChunk)onChunk(reply);
+  return reply.trim();
+ }
+
+ const reader=response.body.getReader();
+ const decoder=new TextDecoder();
+ let buffer="",full="";
+ function handleEvent(eventText){
+  const dataLines=eventText.split(/\r?\n/).filter(line=>line.startsWith("data:"));
+  if(!dataLines.length)return;
+  const raw=dataLines.map(line=>line.slice(5).trimStart()).join("\n");
+  if(!raw||raw==="[DONE]")return;
+  let packet;try{packet=JSON.parse(raw)}catch{return}
+  if(packet.error)throw new Error(typeof packet.error==="string"?packet.error:(packet.error.message||tr("sendError")));
+  const delta=packet.choices?.[0]?.delta?.content
+    ?? packet.choices?.[0]?.message?.content
+    ?? packet.response
+    ?? packet.result
+    ?? "";
+  const chunk=Array.isArray(delta)?delta.map(part=>part?.text||"").join(""):String(delta||"");
+  if(chunk){full+=chunk;if(onChunk)onChunk(chunk)}
+ }
+ try{
+  while(true){
+   const {value,done}=await reader.read();
+   if(done)break;
+   buffer+=decoder.decode(value,{stream:true});
+   const events=buffer.split(/\r?\n\r?\n/);
+   buffer=events.pop()||"";
+   for(const eventText of events)handleEvent(eventText);
+  }
+  buffer+=decoder.decode();
+  if(buffer.trim())handleEvent(buffer);
+ }catch(error){
+  try{await reader.cancel()}catch{}
+  throw error;
+ }
+ if(!full.trim())throw new Error(tr("empty"));
+ return full.trim();
+}
+async function send(){
+ if(busy){toast(tr("busy"));return}
+ const text=$("messageInput").value.trim();if(!text&&!file){toast(tr("empty"));return}
+ const endpoint=localStorage.getItem("lifeai_backend")||"https://lifeai-api.zhana0917.workers.dev";
+ if(!endpoint){toast(tr("noBackend"));$("settingsModal").classList.add("open");return}
+ const attached=file;let dataUrl=null,base64=null;
+ try{if(attached){if(attached.size>8*1024*1024)throw new Error(tr("fileError"));dataUrl=await readFileAsDataUrl(attached);base64=await fileToData(attached)}}catch(e){toast(e.message);return}
+ const userMessage={role:"user",text:text||"",image:dataUrl};messages.push(userMessage);if($("welcome"))$("welcome").remove();renderMessage(userMessage);saveLocal();
+ $("messageInput").value="";file=null;$("fileInput").value="";$("previewRow").style.display="none";
+ updateBusy(true);const thinking=addThinking();aborter=new AbortController();const timeout=setTimeout(()=>aborter.abort(),90000);
+ try{
+  const payload={message:text||"Please analyze the attached image.",image:base64?{mimeType:attached.type,data:base64}:null,history:messages.slice(-13,-1).map(m=>({role:m.role,content:m.text||""}))};
+  let streamStarted=false;
+  const reply=await callBackend(payload,aborter.signal,(chunk)=>{
+   if(!streamStarted){streamStarted=true;thinking.classList.remove("thinking");thinking.classList.add("streaming");thinking.textContent=""}
+   thinking.textContent+=chunk;
+   scrollBottom();
+  });
+  finishThinking(thinking,reply);messages.push({role:"assistant",text:reply});saveLocal();
+ }catch(e){
+  if(e.message==="NO_BACKEND"){finishThinking(thinking,tr("noBackend"),true)}
+  else if(e.name==="AbortError"){finishThinking(thinking,tr("sendError"),true)}
+  else finishThinking(thinking,e.message||tr("sendError"),true);
+ }finally{clearTimeout(timeout);updateBusy(false);aborter=null;scrollBottom()}
+}
+function clearChat(){if(busy){toast(tr("busy"));return}messages=[];localStorage.removeItem("lifeai_chat_"+chatId);renderAll();renderHistory();toast(tr("clearDone"))}
+function newChat(){if(busy){toast(tr("busy"));return}if(messages.length)saveLocal();chatId=makeId();messages=[];renderAll();toast(tr("newChatDone"))}
+function setPrompt(kind){$("messageInput").value=T[lang].prompts[kind]||T[lang].prompts.anything;$("messageInput").focus()}
+$("attach").onclick=()=>$("fileInput").click();
+$("fileInput").onchange=()=>{const f=$("fileInput").files[0];if(!f)return;if(!/^image\/(jpeg|png|webp)$/i.test(f.type)||f.size>8*1024*1024){toast(tr("fileError"));$("fileInput").value="";return}file=f;$("previewImage").src=URL.createObjectURL(f);$("previewName").textContent=f.name;$("previewRow").style.display="flex"};
+$("removeImage").onclick=()=>{file=null;$("fileInput").value="";$("previewRow").style.display="none"};
+$("send").onclick=send;$("messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+$("messageInput").addEventListener("input",e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,120)+"px"});
+document.querySelectorAll("[data-prompt]").forEach(b=>b.onclick=()=>setPrompt(b.dataset.prompt));
+$("newChat").onclick=newChat;$("clearChat").onclick=clearChat;
+function openSettings(){$("backendUrl").value=localStorage.getItem("lifeai_backend")||"https://lifeai-api.zhana0917.workers.dev";$("settingsModal").classList.add("open")}
+$("openSettings").onclick=openSettings;$("connectionSettings").onclick=openSettings;$("navSettings").onclick=openSettings;$("closeSettings").onclick=$("cancelSettings").onclick=()=>$("settingsModal").classList.remove("open");
+$("settingsModal").addEventListener("click",e=>{if(e.target===$("settingsModal"))$("settingsModal").classList.remove("open")});
+$("saveSettings").onclick=()=>{const u=$("backendUrl").value.trim();if(u){try{const url=new URL(u);if(url.protocol!=="https:"&&url.hostname!=="localhost"){toast("Use an HTTPS server URL.");return}}catch{toast("Please enter a valid server URL.");return}localStorage.setItem("lifeai_backend",u)}else localStorage.removeItem("lifeai_backend");$("settingsModal").classList.remove("open");toast("Worker URL saved in this browser.")};
+$("navChat").onclick=()=>{$("messageInput").focus()};
+$("navTools").onclick=()=>$("welcome").scrollIntoView?.({behavior:"smooth",block:"center"});
+document.querySelectorAll(".dock-item").forEach(b=>b.onclick=()=>{document.querySelectorAll(".dock-item").forEach(x=>x.classList.toggle("active",x===b));const what=b.dataset.dockTarget;if(what==="settings")openSettings();else if(what==="tools")document.querySelector(".right")?.scrollIntoView({behavior:"smooth"});else $("messageInput").focus()});
+function renderHistory(){$("historyList").innerHTML="";let items=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k?.startsWith("lifeai_chat_")){const v=JSON.parse(localStorage.getItem(k));if(v?.messages?.length)items.push([k,v])}}}catch{}items.sort((a,b)=>b[1].updated-a[1].updated);if(!items.length){const d=document.createElement("div");d.className="history-item";d.textContent=tr("noHistory");$("historyList").append(d);return}items.slice(0,8).forEach(([key,v])=>{const b=document.createElement("button");b.className="history-item";b.textContent=(v.messages.find(m=>m.role==="user")?.text||"LifeAI chat").slice(0,32);b.onclick=()=>{chatId=v.id;messages=v.messages||[];renderAll()};$("historyList").append(b)})}
+document.querySelectorAll(".lang").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+setLang("ru");renderHistory();
+</script>
+</body>
+</html>
