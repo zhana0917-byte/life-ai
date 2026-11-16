@@ -37,7 +37,7 @@ button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,in
 .voice-btn{font-size:18px!important;position:relative;flex:0 0 44px!important;width:44px!important;height:44px!important;background:#f0edfb!important;color:#725bc4!important;border:1px solid #e5def8!important}
 .voice-btn.listening{background:#fff0f2!important;color:#d94e70!important;border-color:#ffc6d2!important;box-shadow:0 0 0 4px #ffedf1!important;animation:voicePulse 1.4s infinite}
 @keyframes voicePulse{50%{box-shadow:0 0 0 8px #ffedf188}}
-.morpho-panel{background:linear-gradient(145deg,#fff,#f8f6ff)!important;border-color:#e9e4f8!important}
+.morpho-panel{background:linear-gradient(145deg,#fff,#f8f6ff)!important;border-color:#e9e4f8!important}.morpho-panel [hidden]{display:none!important}.morpho-panel .morpho-lead{margin:2px 0 10px;color:#686b86;font-size:12px;line-height:1.65}.morpho-panel .morpho-copy{color:#696b82;font-size:12px;line-height:1.7}.morpho-panel .morpho-copy h4{color:#403b68;font-size:13px;margin:12px 0 4px}.morpho-panel .morpho-copy p{margin:5px 0 8px}.morpho-panel .morpho-copy ul{padding-left:18px;margin:5px 0}.morpho-panel .morpho-copy li{margin:4px 0}
 .morpho-lead{margin:0 0 10px;color:#686b86;font-size:12px;line-height:1.65}
 .morpho-details{border:1px solid #ebe7f5;border-radius:13px;padding:10px 12px;background:#fff}
 .morpho-details summary{cursor:pointer;color:#6556a0;font-size:12px;font-weight:800;line-height:1.5}
@@ -270,28 +270,42 @@ body:before{opacity:.24!important}
    <button class="tool" data-prompt="idea"><span class="tool-ico">✳</span><span data-t="toolIdeas">Идеи и творчество</span></button>
    <button class="tool" data-prompt="plan"><span class="tool-ico">◷</span><span data-t="toolPlans">Планы и задачи</span></button>
    <button class="tool" data-prompt="anything"><span class="tool-ico">✦</span><span data-t="toolAnything">Любые вопросы</span></button>
-  </section>
-  <section class="panel morpho-panel">
-   <h3 class="panel-title"><span class="panel-mark">◉</span><span data-t="morphoTitle">MORPHO · Интерактивті кинетикалық портрет</span></h3>
-   <p class="morpho-lead" data-t="morphoLead">Камера адамның бет қозғалысын анықтап, физикалық портреттің қозғалысына айналдырады.</p>
-   <details class="morpho-details">
-    <summary data-t="morphoMore">Жоба туралы толығырақ</summary>
-    <div class="morpho-copy">
-     <h4>Жаңалығы</h4>
-     <p>MORPHO жобасының басты жаңалығы – адамның бетінің қозғалысын камера арқылы анықтап, оны физикалық портреттің қозғалысына айналдыру. Кәдімгі портрет өзгеріссіз тұрса, MORPHO адамның бетінің экрандағы орналасуына қарай қозғалысқа жауап береді.</p>
-     <p>Жобаның ерекшелігі – Python және OpenCV арқылы бетті анықтау, Arduino мен PCA9685 арқылы сервомоторды басқару технологияларын бір жүйеге біріктіру. Бұл технология болашақта бірнеше сервомоторды басқарып, портреттің әртүрлі бөліктеріне қозғалыс беруге мүмкіндік береді.</p>
-     <h4>MORPHO қалай жүзеге асырылады?</h4>
-     <p>Python және OpenCV камерадан бейне алып, Haar Cascade моделі арқылы адамның бетін анықтайды және оның экрандағы координатасын есептейді. PySerial есептелген бұрыш мәнін компьютерден Arduino тақшасына COM3 порты арқылы 9600 baud жылдамдығымен жібереді.</p>
-     <p>Arduino IDE сервомоторларды басқару бағдарламасын жазуға және оны Arduino тақшасына жүктеуге арналған. Adafruit PWM Servo Driver кітапханасы PCA9685 модулін басқарып, сервомоторларға қажетті PWM сигналдарын қалыптастырады.</p>
-     <h4>Сыртқы құрылымы</h4>
-     <p>Төртбұрышты корпус 3D принтер арқылы басып шығарылған. Ол құрылғының ішкі механизмдерін орналастыруға және қорғауға арналған.</p>
-     <h4>Ішкі электрондық жүйесі</h4>
-     <ul><li><b>Камера</b> – адамның бетін анықтайды.</li><li><b>Arduino</b> – басқару командаларын қабылдайды.</li><li><b>PCA9685</b> – сервомоторларға басқару сигналдарын таратады.</li><li><b>Сервомоторлар</b> – портреттің қозғалмалы бөліктерін басқарады.</li><li><b>Қуат көзі</b> – компоненттерді электр энергиясымен қамтамасыз етеді.</li><li><b>Жалғаушы сымдар</b> – электрондық бөлшектерді байланыстырады.</li></ul>
-     <h4>Бағдарламалық бөлігі</h4>
-     <p>Python және OpenCV камерадан алынған бейнені өңдеп, адамның бетінің экрандағы орнын анықтайды. PySerial компьютер мен Arduino арасындағы Serial байланысты қамтамасыз етеді.</p>
+   <div class="morpho-panel" style="margin-top:12px;padding:13px;border:1px solid #e9e4f8;border-radius:15px;background:linear-gradient(145deg,#fff,#f8f6ff)">
+    <button class="tool" id="morphoToggle" type="button" aria-expanded="false" aria-controls="morphoContent" style="padding:4px 0 8px;width:100%;text-align:left">
+     <span class="tool-ico">◉</span><span style="flex:1"><b>MORPHO</b><small style="display:block;color:#8b87a3;font-size:10px;margin-top:3px">Интерактивті кинетикалық портрет</small></span><span id="morphoChevron">⌄</span>
+    </button>
+    <div id="morphoContent" hidden>
+     <p class="morpho-lead">MORPHO — адамның бетінің қозғалысын камера арқылы анықтап, оны физикалық портреттің қозғалысына айналдыратын интерактивті кинетикалық портрет.</p>
+     <div class="morpho-copy">
+      <h4>Жаңалығы</h4>
+      <p>MORPHO жобасының басты жаңалығы – адамның бетінің қозғалысын камера арқылы анықтап, оны физикалық портреттің қозғалысына айналдыру.</p>
+      <p>Кәдімгі портрет өзгеріссіз тұрса, MORPHO адамның бетінің экрандағы орналасуына қарай қозғалысқа жауап береді.</p>
+      <p>Жобаның ерекшелігі – Python және OpenCV арқылы бетті анықтау, Arduino мен PCA9685 арқылы сервомоторды басқару технологияларын бір жүйеге біріктіруім.</p>
+      <p>Бұл технология болашақта бірнеше сервомоторды басқарып, портреттің әртүрлі бөліктеріне қозғалыс беруге мүмкіндік береді.</p>
+      <h4>MORPHO қалай жүзеге асырылады?</h4>
+      <p>MORPHO жобасының бағдарламалық бөлігі Python және Arduino бағдарламалау орталарында жүзеге асырылады.</p>
+      <p>Python және OpenCV – камерадан бейне алып, Haar Cascade моделі арқылы адамның бетін анықтайды және оның экрандағы координатасын есептейді.</p>
+      <p>PySerial – компьютер мен Arduino тақшасы арасында Serial байланысын орнатады.</p>
+      <p>Есептелген бұрыш мәнін COM3 порты арқылы 9600 baud жылдамдығымен жібереді.</p>
+      <p>Arduino IDE – сервомоторларды басқару бағдарламасын жазуға және оны Arduino тақшасына жүктеуге арналған.</p>
+      <p>Adafruit PWM Servo Driver – PCA9685 модулін басқаруға мүмкіндік беретін кітапхана. Ол сервомоторлардың қозғалысын басқаруға қажетті PWM сигналдарын қалыптастырады.</p>
+      <h4>Сыртқы құрылымы</h4>
+      <p>Төртбұрышты корпус 3D принтер арқылы басып шығарылған. Ол құрылғының ішкі механизмдерін орналастыруға және қорғауға арналған.</p>
+      <h4>Ішкі электрондық жүйесі</h4>
+      <ul>
+       <li><b>Камера</b> – адамның бетін анықтайды.</li>
+       <li><b>Arduino</b> – басқару командаларын қабылдайды.</li>
+       <li><b>PCA9685</b> – сервомоторларға басқару сигналдарын таратады.</li>
+       <li><b>Сервомоторлар</b> – портреттің қозғалмалы бөліктерін басқарады.</li>
+       <li><b>Қуат көзі</b> – компоненттерді электр энергиясымен қамтамасыз етеді.</li>
+       <li><b>Жалғаушы сымдар</b> – электрондық бөлшектерді байланыстырады.</li>
+      </ul>
+      <h4>Бағдарламалық бөлігі</h4>
+      <p>Python және OpenCV – камерадан алынған бейнені өңдеп, адамның бетінің экрандағы орнын анықтайды. PySerial – компьютер мен Arduino арасындағы байланысты қамтамасыз етеді.</p>
+     </div>
+     <button class="morpho-action" id="morphoAsk" type="button">LifeAI-ден MORPHO туралы сұрау</button>
     </div>
-   </details>
-   <button class="morpho-action" id="morphoAsk" data-t="morphoAsk">LifeAI-ден жоба туралы сұрау</button>
+   </div>
   </section>
   <section class="panel"><h3 class="panel-title"><span class="panel-mark">⌘</span><span data-t="connection">Подключение</span></h3><p style="margin:0;color:#929bb1;font-size:10px;line-height:1.65" data-t="connectionText">LifeAI использует быстрый режим для текста и отдельную модель для анализа фото. Ответы поступают постепенно.</p><button class="new-chat" style="margin-top:12px" id="connectionSettings" data-t="configure">Настроить сервер</button></section>
   <div class="right-note"><b data-t="privacyTitle">Ваше пространство</b><span data-t="privacyText">История хранится локально в этом браузере. Не сохраняйте здесь личные или конфиденциальные данные.</span></div>
@@ -445,11 +459,20 @@ function clearChat(){if(busy){toast(tr("busy"));return}messages=[];localStorage.
 function newChat(){if(busy){toast(tr("busy"));return}if(messages.length)saveLocal();chatId=makeId();messages=[];renderAll();toast(tr("newChatDone"))}
 function setPrompt(kind){$("messageInput").value=T[lang].prompts[kind]||T[lang].prompts.anything;$("messageInput").focus()}
 let speechRecognition=null;
-function stopVoiceInput(showMessage=true){
- if(speechRecognition){try{speechRecognition.stop()}catch{}speechRecognition=null;}
+let voiceBaseText="";
+function resetVoiceButton(){
  $("voiceInput").classList.remove("listening");
  $("voiceInput").setAttribute("aria-pressed","false");
  $("voiceInput").textContent="🎙";
+}
+function stopVoiceInput(showMessage=true){
+ const current=speechRecognition;
+ speechRecognition=null;
+ if(current){
+  current.onend=null;
+  try{current.stop()}catch{}
+ }
+ resetVoiceButton();
  if(showMessage)toast(tr("voiceStopped"));
 }
 function startVoiceInput(){
@@ -458,28 +481,56 @@ function startVoiceInput(){
  if(speechRecognition){stopVoiceInput();return;}
  const recognition=new SpeechRecognition();
  speechRecognition=recognition;
+ voiceBaseText=$("messageInput").value.trim();
  recognition.lang=lang==="kk"?"kk-KZ":(lang==="en"?"en-US":"ru-RU");
- recognition.continuous=true;
+ // Non-continuous mode is more reliable on mobile browsers and avoids
+ // repeated interim transcripts being appended to the input field.
+ recognition.continuous=false;
  recognition.interimResults=true;
- let finalText="";
- recognition.onstart=()=>{$("voiceInput").classList.add("listening");$("voiceInput").setAttribute("aria-pressed","true");$("voiceInput").textContent="■";toast(tr("voiceListening"));};
+ recognition.maxAlternatives=1;
+ recognition.onstart=()=>{
+  $("voiceInput").classList.add("listening");
+  $("voiceInput").setAttribute("aria-pressed","true");
+  $("voiceInput").textContent="■";
+  toast(tr("voiceListening"));
+ };
  recognition.onresult=(event)=>{
-  let interim="";
-  for(let i=event.resultIndex;i<event.results.length;i++){
-   const part=event.results[i][0].transcript;
-   if(event.results[i].isFinal)finalText+=part+" ";else interim+=part;
+  let finalParts=[];
+  let interimParts=[];
+  // Rebuild the recognized phrase from the complete result list each time.
+  // Never use the current textarea as the next transcript prefix.
+  for(let i=0;i<event.results.length;i++){
+   const result=event.results[i];
+   const transcript=(result[0]?.transcript||"").trim();
+   if(!transcript)continue;
+   if(result.isFinal)finalParts.push(transcript);
+   else interimParts.push(transcript);
   }
-  const prefix=$("messageInput").value.trim();
-  const combined=[prefix,finalText.trim(),interim].filter(Boolean).join(" ");
-  $("messageInput").value=combined;
+  const recognized=[...finalParts,...interimParts].join(" ").trim();
+  $("messageInput").value=[voiceBaseText,recognized].filter(Boolean).join(voiceBaseText&&recognized?" ":"");
   $("messageInput").style.height="auto";
   $("messageInput").style.height=Math.min($("messageInput").scrollHeight,120)+"px";
  };
- recognition.onerror=(event)=>{if(event.error!=="no-speech"&&event.error!=="aborted")toast(tr("voiceUnsupported"));stopVoiceInput(false);};
- recognition.onend=()=>{speechRecognition=null;$("voiceInput").classList.remove("listening");$("voiceInput").setAttribute("aria-pressed","false");$("voiceInput").textContent="🎙";};
- try{recognition.start();}catch{stopVoiceInput(false);toast(tr("voiceUnsupported"));}
+ recognition.onerror=(event)=>{
+  if(event.error!=="no-speech"&&event.error!=="aborted")toast(tr("voiceUnsupported"));
+  if(speechRecognition===recognition)speechRecognition=null;
+  resetVoiceButton();
+ };
+ recognition.onend=()=>{
+  if(speechRecognition===recognition)speechRecognition=null;
+  resetVoiceButton();
+ };
+ try{recognition.start();}
+ catch{speechRecognition=null;resetVoiceButton();toast(tr("voiceUnsupported"));}
 }
 $("voiceInput").onclick=startVoiceInput;
+$("morphoToggle").onclick=()=>{
+ const content=$("morphoContent");
+ const opening=content.hidden;
+ content.hidden=!opening;
+ $("morphoToggle").setAttribute("aria-expanded",String(opening));
+ $("morphoChevron").textContent=opening?"⌃":"⌄";
+};
 $("morphoAsk").onclick=()=>{
  const prompt="MORPHO — интерактивті кинетикалық портрет жобасын түсіндіріп бер. Жобаның жаңалығын, Python және OpenCV (Haar Cascade), PySerial арқылы COM3/9600 baud байланысын, Arduino IDE, PCA9685 және Adafruit PWM Servo Driver кітапханасын, 3D-басылған корпусын, камера, Arduino, сервомоторлар, қуат көзі мен сымдардан тұратын құрылымын жүйелеп сипатта. Қазақ тілінде түсінікті әрі толық жауап бер.";
  $("messageInput").value=prompt;$("messageInput").focus();$("messageInput").style.height="auto";$("messageInput").style.height=Math.min($("messageInput").scrollHeight,120)+"px";
